@@ -1,0 +1,199 @@
+from tkinter import *
+import os
+import pyttsx3
+import boto3
+import cv2
+from cvzone.HandTrackingModule import HandDetector
+model=HandDetector()
+import time
+import subprocess
+import pywhatkit
+window=Tk()
+window.title("Project 001")
+
+window.minsize(width=600,height=400)
+window.config(padx=20,pady=25)
+window.maxsize(width=610,height=405)
+mylable=Label(text="MENU(By System)",font=("Arial", 24 ,"bold"))
+mylable.pack()
+def notepad():
+    os.system("notepad")
+def chrome():
+    os.system("start chrome")
+def youtube():
+    os.system("start chrome www.youtube.com")
+def paint():
+    os.system("mspaint")
+def whatsapp():
+    pywhatkit.sendwhatmsg( "+918278658295","what msg you want to send",18,34,5)
+def calculator():
+    os.system("calc")
+def control_panel():
+    os.system("control panel")
+def explorer():
+    os.system("explorer")
+def speak():
+    val=input.get()
+    pyttsx3.speak(val)
+def launch():
+    muec2=boto3.client("ec2")
+    muec2.run_instances(
+     ImageId="ami-0ded8326293d3201b",
+    InstanceType="t2.micro",
+    MaxCount=1,
+    MinCount=1
+    )
+def vlc():
+    os.system("start vlc johnwick.mp4")
+def camera():
+    cap=cv2.VideoCapture(0)
+    status ,photo=cap.read()
+    cv2.imwrite("nitish.jpg",photo)
+    cv2.imshow("my",photo)
+    cv2.waitKey()==13
+    cv2.destroyAllWindows()
+    cap.release()
+def wui():
+    os.system("start chrome http://13.232.125.2/menu.html")
+def video():
+    cap=cv2.VideoCapture(0)
+    while True:
+        status ,photo=cap.read()
+        cv2.imshow("my",photo)
+        if cv2.waitKey(50)==13:
+            break
+    cv2.destroyAllWindows()
+    cap.release()
+def random():
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+# Set the dimensions of the image
+    width, height = 100, 100
+
+# Create a blank canvas 
+    canvas = np.zeros((height, width, 3), dtype=np.uint8)
+
+# Define the number of iterations to create the generative art
+    num_iterations = 10000
+
+# Iterate and randomly fill the canvas with colors and patterns
+    for _ in range(num_iterations):
+        x, y = np.random.randint(0, width), np.random.randint(0, height)
+        r, g, b = np.random.randint(0, 256), np.random.randint(0, 256), np.random.randint(0, 256)
+        size = np.random.randint(1, 10)  # Random size for the pattern
+        canvas[y -2* size:y + 7*size, x - 6*size:x + 5*size] = [r, g, b]
+
+# Display image
+    plt.imshow(canvas)
+    plt.axis('off') # Turn off axis
+    plt.show()
+
+        
+def ml():
+    cap=cv2.VideoCapture(0)
+    while True:
+        status,photo=cap.read()
+        cv2.imshow("window",photo)
+        if cv2.waitKey(50)==13:
+            break
+        hand=model.findHands(photo,draw=False)
+        if hand:
+            imlist=hand[0]
+            fingeruplist=model.fingersUp(imlist)
+            if fingeruplist==[0,1,0,0,0]:
+                subprocess.getoutput("start chrome")
+                time.sleep(2)
+            elif fingeruplist ==[0,1,1,0,0]:
+                subprocess.getoutput("notepad")
+                time.sleep(2)
+            elif fingeruplist ==[0,1,1,1,0]:
+                subprocess.getoutput("mspaint")
+                time.sleep(2)
+            elif fingeruplist ==[0,1,1,1,1]:
+                subprocess.getoutput("start chrome youtube.com")
+                time.sleep(2)
+            elif fingeruplist ==[1,1,1,1,1]:
+                subprocess.getoutput("control panel")
+                time.sleep(2)
+            else:
+                print("does not support")
+                time.sleep(2)
+    cv2.destroyAllWindows()
+    cap.release()
+def s3():
+    s3a=boto3.client("s3")
+    response=s3a.create_bucket(Bucket="nitish",CreateBucketConfiguration={"LocationConstraint":"ap-south-1",})
+    response_public = s3a.put_public_access_block(
+        Bucket="vaibhavsa6",
+        PublicAccessBlockConfiguration={
+            'BlockPublicAcls': False,
+            'IgnorePublicAcls': False,
+            'BlockPublicPolicy': False,
+            'RestrictPublicBuckets': False,
+        },
+    )
+def videof():
+    cap=cv2.VideoCapture(0)
+    while True:
+        status , photo = cap.read()
+        a = cv2.cvtColor(photo , cv2.COLOR_BGR2GRAY)
+        cv2.imshow("mt",a)
+        if cv2.waitKey(20)==13:
+            break
+    cv2.destroyAllWindows()
+    cap.release()
+def facecrop():
+    cap=cv2.VideoCapture(0)
+    while True:
+        status , photo = cap.read()
+        a=photo[110:350,230:450]
+        photo[0:240,0:220]=a
+        cv2.imshow("my ",photo)
+        if cv2.waitKey(50)==13:
+            break
+    cv2.destroyAllWindows()
+    cap.release()
+button1=Button(text="notepad" ,command=notepad)
+button1.place(x=20,y=50)
+button2=Button(text="chrome" ,command=chrome)
+button2.place(x=110,y=50)
+button3=Button(text="youtube" ,command=youtube)
+button3.place(x=220,y=50)
+button4=Button(text="paint" ,command=paint)
+button4.place(x=330,y=50)
+button5=Button(text="whatsapp" ,command=whatsapp)
+button5.place(x=440,y=50)
+button6=Button(text="calculator" ,command=calculator)
+button6.place(x=20,y=100)
+button7=Button(text="control panel" ,command=control_panel)
+button7.place(x=110,y=100)
+button8=Button(text="explorer" ,command=explorer)
+button8.place(x=220,y=100)
+button9=Button(text="Launch EC2" ,command=launch)
+button9.place(x=330,y=100)
+button10=Button(text="john wick",command=vlc)
+button10.place(x=440,y=100)
+button11=Button(text="camera",command=camera)
+button11.place(x=20,y=150)
+button14=Button(text="wui",command=wui)
+button14.place(x=110,y=150)
+button13=Button(text="video",command=video)
+button13.place(x=220,y=150)
+button14=Button(text="ML",command=ml)
+button14.place(x=330,y=150)
+button15=Button(text="ran image",command=random)
+button15.place(x=440,y=150)
+button16=Button(text="s3 bucket",command=s3)
+button16.place(x=20,y=200)
+button17=Button(text="Filter",command=videof)
+button17.place(x=110,y=200)
+button18=Button(text="face crop",command=facecrop)
+button18.place(x=220,y=200)
+input=Entry(width=20)
+input.place(x=200,y=310)
+print(input.get())
+button12=Button(text="speak",command=speak)
+button12.place(x=330,y=310)
+
+window.mainloop()
